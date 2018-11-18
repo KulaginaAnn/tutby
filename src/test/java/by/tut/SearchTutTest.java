@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 /**test tut.by search job*/
 public class SearchTutTest {
 
-    private static final String testQuery = "QA automation engineer";//input data
-    public static WebDriver driver;
+    private static final String TEST_QUERY = "QA automation engineer";//input data
+    private static WebDriver driver;
 
 
     /**initialization driver */
@@ -40,7 +40,7 @@ public class SearchTutTest {
     /**
      * search and click job
      */
-    @Test(priority = 0)
+    @Test
     public void searchJob() {
         WebElement searchJob = driver.findElement(By.linkText("Работа"));
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -57,7 +57,7 @@ public class SearchTutTest {
         Actions actions = new Actions(driver);
         actions.moveToElement(input);
         actions.click();
-        actions.sendKeys(testQuery);
+        actions.sendKeys(TEST_QUERY);
         actions.build().perform();
     }
 
@@ -74,14 +74,14 @@ public class SearchTutTest {
 
     /**check matches whith input data*/
     @Test(priority = 3)
-    public void vac() {
+    public void matchCheck() {
         int numberOfMatches = 0;
         int numberOfNotMatches = 0;
 
-        List<WebElement> list1 = (List<WebElement>) driver.findElements(By.cssSelector("div.search-item-name "));
+        List<WebElement> listDiv = driver.findElements(By.cssSelector("div.search-item-name "));
 
-        if (list1.size() > 0) {
-            for (WebElement list : list1) {
+        if (listDiv.size() > 0) {
+            for (WebElement list : listDiv) {
 
                 try {
                     list.findElement(By.partialLinkText("QA"));
@@ -93,7 +93,7 @@ public class SearchTutTest {
 
             }
         }
-        System.out.println("Всего записей: " + list1.size());
+        System.out.println("Всего записей: " + listDiv.size());
         System.out.println("количество совпадений: " + numberOfMatches);
         System.out.println("не удовлетворяет поиску: " + numberOfNotMatches);
     }
